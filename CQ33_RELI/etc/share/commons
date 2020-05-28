@@ -1,0 +1,30 @@
+{
+	"cycle_times": 100000,
+	"delay_time": 25,
+	"para_cam": {
+		"run_time": 100000
+	},
+	"para_cpu": {
+		"time_dur": 10,
+		"time_unit": "d"
+	},
+	"para_lidar": {
+		"l1_port": 1001,
+		"l2_port": 1002,
+		"iperf_inter": 2,
+		"iperf_time": 20
+	},
+	"para_stat": {
+		"rollback_num": 10,
+		"md5_cron": "cb2450165b72bc70f3aa0088c135baac"
+	},
+	"para_fan": {
+		"value": 0
+	},
+	"para_gps": {
+		"value": 0
+	},
+	"para_imu": {
+		"value": 0
+	}
+}

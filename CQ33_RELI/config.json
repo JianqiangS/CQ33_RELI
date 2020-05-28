@@ -1,0 +1,26 @@
+{
+	"fb_switch": 1,
+	"uos_name": "uisee_0424",
+	"para_cpu": {
+		"core_m_num": 2,
+		"core_s_num": 2,
+		"switch_m": 0,
+		"switch_s": 0
+	},
+	"para_gpu": {
+		"switch_m": 0,
+		"switch_s": 0
+	},
+	"para_lidar": {
+		"l1_ip": "192.168.100.90",
+		"l1_name": "uisee",
+		"l2_ip": "192.168.100.90",
+		"l2_name": "uisee",
+		"iperf_band": 100
+	},
+	"para_stat": {
+		"mail_switch_annex": 1,
+		"mail_switch_content": 1,
+		"mail_cc_account" : "jianqiangx.shang@uisee.com"
+	}
+}

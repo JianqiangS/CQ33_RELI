@@ -1,0 +1,79 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# for cq3.3, init i2c gpio
+i2c_gpio_init_slave.sh
+
+#OPEN LED GPIO3_PS_03
+echo 259 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio259/direction
+echo 1 > /sys/class/gpio/gpio259/value
+
+
+#Maximize performances
+( sleep 5 && /usr/local/bin/max.sh ) & 
+
+#OPEN PCIE POWER
+echo 398 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio398/direction
+echo 1 > /sys/class/gpio/gpio398/value
+
+sleep 1
+
+#ip link set can0 type can bitrate 500000
+#ip link set can0 type can tq 25 prop-seg 34 phase-seg1 35 phase-seg2 10 sjw 20
+#ip link set up can0
+#ip link set can1 type can bitrate 500000
+#ip link set can1 type can tq 25 prop-seg 34 phase-seg1 35 phase-seg2 10 sjw 20
+#ip link set up can1
+
+#ip -details -statistics link show can1
+
+#OPEN LED4 & GPIO1
+#echo 259 > /sys/class/gpio/export
+#echo out > /sys/class/gpio/gpio259/direction
+#echo 1 > /sys/class/gpio/gpio259/value
+
+i2cset -f -y  4 0x3c 0x04 0x3d
+#i2cdump -f -y 4 0x3c
+
+load_fpga_drv.sh
+#switch CQ for E300
+switch_hy_isp.sh AVP
+
+#OPEN CAM POWER
+echo 446 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio446/direction
+echo 1 > /sys/class/gpio/gpio446/value
+
+
+#OPEN LED7 & GPIO3
+#echo 267 > /sys/class/gpio/export
+#echo out > /sys/class/gpio/gpio267/direction
+#echo 1 > /sys/class/gpio/gpio267/value
+
+( sleep 10 && /usr/bin/jetson_clocks.sh ) & 
+
+/usr/local/bin/sync_time &
+
+#mount sata disk on slave board
+sata_mount.sh
+#nfs_mount.sh
+
+
+sleep 1;get_camera_status.sh -f&
+sleep 5;gmsl_check.sh &
+/home/worker/camera/monitor_camera 
+exit 0
+
+

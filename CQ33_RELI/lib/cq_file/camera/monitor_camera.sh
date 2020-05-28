@@ -1,0 +1,61 @@
+#!/bin/bash
+
+function monitor_cam_num()
+{
+	cam_num=$(get_camera_status.sh |grep YES |wc -l)
+	if [ "${cam_num}" -lt 1 ]
+	then
+		printf "Please check if the camera is connected ...\n"
+		exit 1
+	fi
+}
+
+function monitor_cam_excute()
+{
+        local run_time=$(jq -r '.run_time' ${run_dir}/config.json)
+        pgrep check_camera |xargs sudo kill -9
+	(
+		cd ${run_dir}
+		> ${log_summary}
+		./startup.sh ${run_time}
+	)
+}
+
+function monitor_cam_result()
+{
+        local cam_excute=${log_dir}/camera_excute.log
+        local cam_statis=${log_dir}/camera_result.log
+        while true
+        do
+                {
+                        sleep 2
+                        tail -${cam_num} ${log_summary} |sort -n
+                } >> ${cam_excute}
+                {
+                        tail -${cam_num} ${cam_excute}
+                } | tee ${cam_statis}
+        done
+}
+
+function monitor_cam_empty()
+{
+	(
+		cd ${run_dir}
+		sudo rm -r video*
+	)
+}
+
+function monitor_cam()
+{
+	local run_dir=/home/worker/camera
+        local log_date=$(date "+%Y-%m-%d-%H-%M-%S")
+        local log_dir=${run_dir}/log/check_camera/${log_date}
+        local log_summary=${run_dir}/check_camera.summary
+        [ ! -f "${log_dir}" ] && mkdir -p ${log_dir}
+        monitor_cam_num
+	monitor_cam_empty
+        monitor_cam_excute &
+        monitor_cam_result
+}
+
+monitor_cam

@@ -1,0 +1,33 @@
+SYNOPSIS
+	./run -m [1/2/3/4/5/6/7/8/9]
+	./run -h
+	./run -v
+GENERAL OPTIONS
+	-m 1
+		fb_switch , foreground (0) and background (1) operation mode switch
+	-m 2
+		monitor_cam , camera frame drop and frame split test
+	-m 3
+		monitor_fan , fan speed test (reserved)
+	-m 4
+		monitor_gps , gps positioning test
+	-m 5
+		monitor_l1 , l1 and pc1 net transmission test
+	-m 6
+		monitor_l2 , l2 and pc2 net transmission test
+	-m 7
+		monitor_imu , imu transmission data test
+	-m 8
+		monitor_cpu , set cpu load environment
+	-m 9
+		monitor_gpu , set gpu load environment
+	-v
+		print version information and quit
+	-h
+		print a help synopsis
+ENVIRONMENT
+	Linux 4.4.38+ aarch64 aarch64 GNU/Linux
+AUTHORS
+	Product Test Department System Test Group
+	mail : jianqiangx.shang@uisee.com
+	date : 2020/05/28 10:30:10

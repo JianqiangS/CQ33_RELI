@@ -1,0 +1,121 @@
+#!/bin/bash
+
+function monitor_lidar_check_template()
+{
+	ssh $1@$2 "ifconfig > /dev/null"
+	if [ "$?" -ne 0 ]
+	then
+		printf "L$3 name '$1' or L$3 ip '$2' or connect lineroute error ...\n" 
+		exit 1
+	fi
+}
+
+function monitor_lidar_client_template()
+{
+	local delay_time=$(jq -r ".delay_time" ${common_json})
+	local lidar_cycle=$(jq -r ".cycle_times" ${common_json})
+	local test_init
+	for ((test_init=1;test_init<=${lidar_cycle};test_init++))
+	do
+		(
+			ssh $2@$3 <<-eeooff
+				iperf -u -c 192.168.100.99\
+				-p ${port} -t ${iperf_time}\
+				-i ${iperf_inter} -b ${iperf_band}M
+			eeooff
+		)
+		sleep ${delay_time} && sync
+		monitor_lidar_server_check $1
+	done
+}
+
+function monitor_lidar_server()
+{
+	{
+		sudo iperf -u -s -p ${port} 
+	} >> ${log_dir}/iperf_server.log
+}
+
+function monitor_lidar_server_check(){
+	local server_log=${log_dir}/iperf_server.log
+	if [ -f "${server_log}" ]
+	then
+		local server_result=$(grep "%" ${server_log} |awk -F "(" '{print $2}' |awk -F "%" '{print $1}')
+		local result_count=$(echo "${server_result}" |wc -l)
+		local result_succ=0
+		local result_fail=0
+		for i in $(echo "${server_result}")
+		do
+			if [ $(echo "$i < 1.0" | bc) -gt 0 ]
+			then
+				let result_succ++
+			else
+				let result_fail++
+			fi 
+		done
+		{
+			printf "$(date "+%F %T"),interface=$1,times=${result_count},succ=${result_succ},fail=${result_fail}\n"
+		} |tee ${log_dir}/iperf_result.log
+	fi
+}
+
+function monitor_lidar_excute_template()
+{
+	local log_date=$(date "+%Y-%m-%d-%H-%M-%S")
+	local log_dir=${RUN_PATH}/log/check_$1/${log_date}
+	local iperf_band=$(jq -r '.para_lidar.iperf_band' ${lidar_json})
+	local iperf_inter=$(jq -r '.para_lidar.iperf_inter' ${common_json})
+	local iperf_time=$(jq -r '.para_lidar.iperf_time' ${common_json})
+	[ ! -d "${log_dir}" ] && mkdir -p ${log_dir}
+	if [ "$1" == "lidar1" ]
+	then
+		local port=$(jq -r '.para_lidar.l1_port' ${common_json})
+	else
+		local port=$(jq -r '.para_lidar.l2_port' ${common_json})
+	fi
+	monitor_lidar_server & 
+	(
+		monitor_lidar_client_template $1 $2 $3
+	) 
+}
+
+function monitor_lidar_l1()
+{
+	monitor_lidar_check_template ${l1_name} ${l1_ip} 1
+	monitor_lidar_excute_template "lidar1" ${l1_name} ${l1_ip}
+}
+
+function monitor_lidar_l2()
+{
+	monitor_lidar_check_template ${l2_name} ${l2_ip} 2
+	monitor_lidar_excute_template "lidar2" ${l2_name} ${l2_ip}
+}
+
+function monitor_lidar_trap()
+{
+	{
+		pgrep iperf |xargs kill -9
+		kill -9 $(printf "$$")
+	} &> /dev/null
+}
+
+function monitor_lidar_mode()
+{
+	case $1 in
+		1) monitor_lidar_l1 ;;
+		2) monitor_lidar_l2 ;;
+	esac
+}
+
+function monitor_lidar()
+{
+	local lidar_json=${RUN_PATH}/config.json
+	local common_json=${RUN_PATH}/etc/share/commons
+	local l1_name=$(jq -r '.para_lidar.l1_name' ${lidar_json})
+	local l1_ip=$(jq -r '.para_lidar.l1_ip' ${lidar_json})
+	local l2_name=$(jq -r '.para_lidar.l2_name' ${lidar_json})
+	local l2_ip=$(jq -r '.para_lidar.l2_ip' ${lidar_json})
+	trap "monitor_lidar_trap" HUP INT QUIT
+	trap "monitor_lidar_trap" EXIT
+	monitor_lidar_mode $1
+}

@@ -1,0 +1,147 @@
+#!/bin/bash
+
+function monitor_cpu_excute_master(){
+	# master port cpu N core stress
+	local cpu_enable=$(jq -r ".para_cpu.switch_m" ${cpu_json})
+	if [ "${cpu_enable}" -eq 1 ]
+	then
+		local core_m_num=$(jq -r ".para_cpu.core_m_num" ${cpu_json})
+		local board_m_num=$(lscpu |grep CPU\(s\) |head -1 |awk '{print $2}')
+		if [ "${core_m_num}" -eq 0 ] || [ "${core_m_num}" -eq "${board_m_num}" ]
+		then
+			local cpu_m_num=${board_m_num}
+		elif [ "${core_m_num}" -gt 0 ] && [ "${core_m_num}" -lt "${board_m_num}" ]
+		then
+			local cpu_m_num=${core_m_num}
+		else
+			printf "${cpu_json} para_cpu.core_m_num error\n"
+			printf "\tMaster_Port default cpu usage is 3x100%%\n"
+			local cpu_m_num=3
+		fi
+		printf "Master_Port Stress-ng starts the CPU usage ${cpu_m_num}x100%%\n"
+		stress-ng -c ${cpu_m_num} -t ${cpu_time_dur}${cpu_time_unit}
+	elif [ "${cpu_enable}" -eq 0 ]
+	then
+		printf "Master_Port cpu starts the CPU usage 0%%\n"
+	else
+		printf "${cpu_json} para_cpu.switch_m error\n"
+		printf "\tswitch_m : 0, means cpu disable; 1, means cpu enable\n"
+		printf "\tMaster_Port default cpu usage is 0%%\n"
+	fi
+}
+
+function monitor_cpu_excute_slave()
+{
+	# slave port cpu N core stress
+	local cpu_enable=$(jq -r ".para_cpu.switch_s" ${cpu_json})
+	if [ "${cpu_enable}" -eq 1 ]
+	then
+		local core_s_num=$(jq -r ".para_cpu.core_s_num" ${cpu_json})
+		local board_s_num_info=$(ssh slave "lscpu |grep CPU\(s\) |head -1")
+		local board_s_num=$(echo "${board_s_num_info}" |awk '{print $2}')
+		if [ "${core_s_num}" -eq 0 ] || [ "${core_s_num}" -eq "${board_s_num}" ]
+		then
+			local cpu_s_num=${board_s_num}
+		elif [ "${core_s_num}" -gt 0 ] && [ "${core_s_num}" -lt "${board_s_num}" ]
+		then
+			local cpu_s_num=${core_s_num}
+		else
+			printf "${cpu_json} para_cpu.core_s_num error\n"
+			printf "\tSlave_Port default cpu usage is 3x100%%\n"
+			local cpu_s_num=3
+		fi
+		printf "Slave_Port Stress-ng starts the CPU usage ${cpu_s_num}x100%%\n"
+		ssh slave "stress-ng -c ${cpu_s_num} -t ${cpu_time_dur}${cpu_time_unit}"
+	elif [ "${cpu_enable}" -eq 0 ]
+	then
+		printf "Slave_Port cpu starts the CPU usage 0%%\n"
+	else
+		printf "${cpu_json} para_cpu.switch_s error\n"
+		printf "\tswitch_s : 0, means cpu disable; 1, means cpu enable\n"
+		printf "\tSlave_Port default cpu usage is 0%%\n"
+	fi
+}
+
+function monitor_cpu_kill(){
+	killall stress-ng &> /dev/null
+	ssh slave "killall stress-ng &> /dev/null"
+}
+
+function monitor_cpu_ctrlc()
+{
+	monitor_cpu_kill
+	printf "$$\n" |xargs sudo kill -9
+	sync
+}
+
+function monitor_cpu_excute()
+{
+	local cpu_time_dur=$(jq -r ".para_cpu.time_dur" ${common_json})
+	local cpu_time_unit=$(jq -r ".para_cpu.time_unit" ${common_json})
+	monitor_cpu_kill
+	monitor_cpu_excute_master & 
+	monitor_cpu_excute_slave &
+}
+
+function monitor_cpu_status_check()
+{
+	status_info_cpu "${tegrastats_info}"
+	status_info_temp "${tegrastats_info}"
+	local cpu_info_012="${cpu0_rate},${cpu0_freq},${cpu1_rate},${cpu1_freq},${cpu2_rate},${cpu2_freq}"
+	local cpu_info_345="${cpu3_rate},${cpu3_freq},${cpu4_rate},${cpu4_freq},${cpu5_rate},${cpu5_freq}"
+	printf "$(date "+%F %T"),$1,cpu,$test_init,${cpu_info_012},${cpu_info_345},${temp_thermal}\n"
+}
+
+function monitor_cpu_status_master()
+{
+	# master port cpu status information
+	local tegrastats_info=$(sudo timeout 3 /home/worker/tegrastats)
+	monitor_cpu_status_check master
+}
+
+function monitor_cpu_status_slave()
+{
+	# slave port cpu status information
+	local tegrastats_info=$(ssh slave "sudo timeout 3 /home/worker/tegrastats")
+	monitor_cpu_status_check slave
+}
+
+function monitor_cpu_status_template()
+{
+	# cpu status information
+	printf "${cpu_title}\n"
+	monitor_cpu_status_master
+	monitor_cpu_status_slave
+}
+
+function monitor_cpu_result_statistic()
+{
+	# cpu stress excute
+	local cpu_012="CPU0_R,CPU0_F,CPU1_R,CPU1_F,CPU2_R,CPU2_F"
+	local cpu_345="CPU3_R,CPU3_F,CPU4_R,CPU4_F,CPU5_R,CPU5_F"
+	local cpu_cycle=$(jq -r ".cycle_times" ${common_json})
+	local cpu_title="date,port,project,test_num,${cpu_012},${cpu_345},temp_thermal"
+	local delay_time=$(jq -r ".delay_time" ${common_json})
+	local test_init
+	for ((test_init=1;test_init<=${cpu_cycle};test_init++))
+	do
+		sleep ${delay_time}
+		monitor_cpu_status_template > /tmp/cpu_template.log
+		csvlook /tmp/cpu_template.log
+		tail -2 /tmp/cpu_template.log |head -1 >> ${log_dir}/cpu_master_statistic.log
+		tail -1 /tmp/cpu_template.log >> ${log_dir}/cpu_slave_statistic.log
+	done
+}
+
+function monitor_cpu()
+{
+	local cpu_json=${RUN_PATH}/config.json
+	local common_json=${RUN_PATH}/etc/share/commons
+	local log_date=$(date "+%Y-%m-%d-%H-%M-%S")
+	local log_dir=${RUN_PATH}/log/check_cpu/${log_date}
+	[ ! -d "${log_dir}" ] && mkdir -p ${log_dir}
+	trap "monitor_cpu_ctrlc" HUP INT QUIT
+	trap "monitor_cpu_kill" EXIT
+	monitor_cpu_excute
+	monitor_cpu_result_statistic
+}

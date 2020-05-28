@@ -1,0 +1,74 @@
+#!/bin/bash
+
+function fb_switch_help()
+{
+	cat <<-eeooff
+		${seq_line_1// /*}
+		SYNOPSISI  :  $(basename fb_switch)  [0|1]
+		${seq_line_1// /*}
+		DESCRIPTION
+		${seq_line_0// /-}
+		0 > switch test mode to foreground ... 
+		1 > switch test mode to background ...
+		${seq_line_1// /*}
+	eeooff
+}
+
+function fb_switch_rclocal_check()
+{
+	grep "RELI" /etc/rc.local > /dev/null
+	if [ "$?" -ne 0 ]
+	then
+		sudo cp ${RUN_PATH}/lib/cq_file/rclocal/rc_m.local ${rc_local}
+		scp ${RUN_PATH}/lib/cq_file/rclocal/rc_s.local worker@192.168.100.98:/home/worker
+		ssh slave <<-eof
+			sudo mv /home/worker/rc_s.local ${rc_local}
+		eof
+	fi
+}
+
+function fb_switch_disable()
+{
+	printf "[ Check ] : test mode (${switch_fb}), switch to foreground ...\n"
+	sudo sed -i 's/\(^su - worker -c \"\/home\/worker\/CQ33_RELI\/run*\)/\#\1/' ${rc_local}
+	ssh slave <<-eeooff 
+		sudo sed -i 's/\(^\/home\/worker\/camera\/*\)/\#\1/' ${rc_local}
+	eeooff
+}
+
+function fb_switch_enable()
+{
+	printf "[ Check ] : test mode (${switch_fb}), switch to background ...\n"
+	sudo sed -i 's/^[ ]*\#\(su - worker -c \"\/home\/worker\/CQ33_RELI\/run*\)/\1/' ${rc_local}
+	ssh slave <<-eeooff
+		sudo sed -i 's/^[ ]*\#\(\/home\/worker\/camera\/*\)/\1/' ${rc_local}
+	eeooff
+}
+
+function fb_switch_restart_effect()
+{
+	printf "After 5 seconds, the system restarts to take effect ...\n"
+	sleep 5
+	ssh slave sudo reboot; sudo reboot
+}
+
+function fb_switch()
+{
+	local switch_fb=$(jq -r '.fb_switch' ${RUN_PATH}/config.json)
+	local rc_local=/etc/rc.local
+	fb_switch_rclocal_check	
+	fb_switch_help
+	case ${switch_fb} in
+		0) 
+			fb_switch_disable
+			fb_switch_restart_effect ;;
+		1)
+			fb_switch_enable
+			fb_switch_restart_effect ;;
+		*)
+			printf "${RUN_PATH} config.json fb_switch error ...\n"
+			fb_switch_disable
+			exit 1
+		;;
+	esac
+}

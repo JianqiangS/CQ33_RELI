@@ -1,0 +1,6 @@
+
+date,unit,sub,time,succ,fail
+2018-10-01 01:16:30,camera,video4,1003460,34,0
+2018-10-01 01:16:31,camera,video5,1003446,34,0
+2018-10-01 01:16:31,lidar1,iperf,13,13,0
+2018-10-01 01:16:31,lidar2,iperf,13,13,0

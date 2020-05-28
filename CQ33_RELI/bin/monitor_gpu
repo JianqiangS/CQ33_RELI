@@ -1,0 +1,164 @@
+#!/bin/bash
+
+function monitor_gpu_uospath_check()
+{
+	# check deploy uos package
+	if [ ! -d "${gpu_uos_path}" ]
+	then
+		printf "${gpu_uos_path} not exist\n"
+		printf "please check ${gpu_json} uos_name\n"
+		exit 1
+	fi
+}
+
+function monitor_gpu_matrixmul_check()
+{
+	# check gpu relay file
+	local matrixmul_file=${gpu_uos_path}/matrixMul.dat
+	if [ ! -f "${matrixmul_file}" ]
+	then
+		cp ${RUN_PATH}/lib/cq_file/gpu/matrixMul.dat ${gpu_uos_path}
+	fi
+	
+	local matrixmul_file_s=$(ssh slave "ls -l ${matrixmul_file}")
+	if [ -z "${matrixmul_file_s}" ]
+	then
+		scp ${RUN_PATH}/lib/cq_file/gpu/matrixMul.dat slave:${gpu_uos_path}
+	fi
+	
+	chmod +x ${matrixmul_file}
+	ssh slave "chmod +x ${matrixmul_file}"
+}
+
+function monitor_gpu_excute_master()
+{
+	# master port gpu program excute
+	local gpu_enable=$(jq -r ".para_gpu.switch_m" ${gpu_json})
+	if [ "${gpu_enable}" -eq 1 ]
+	then
+		printf "Master_Port gpu starts the GPU usage 100%%\n"
+		(
+			{
+				cd ${gpu_uos_path}
+				. set_env.sh
+				./matrixMul.dat
+			} > /dev/null
+		)
+	elif [ "${gpu_enable}" -eq 0 ]
+	then
+		printf "Master_Port gpu starts the GPU usage 0%%\n"
+	else
+		printf "${gpu_json} para_gpu.switch_m error\n"
+		printf "\tswitch_m : 0, means gpu 0%%; 1, means gpu 100%%\n"
+		printf "\tMaster_Port default gpu usage is 0%%\n"
+	fi
+}
+
+function monitor_gpu_excute_slave()
+{
+	# slave port gpu program excute
+	local gpu_enable=$(jq -r ".para_gpu.switch_s" ${gpu_json})
+	if [ "${gpu_enable}" -eq 1 ]
+	then
+		printf "Slave_Port gpu starts the GPU usage 100%%\n"
+		ssh slave <<-eof
+		(
+			{
+				cd ${gpu_uos_path}
+				. set_env.sh
+				./matrixMul.dat
+			} > /dev/null
+		)
+		eof
+	elif [ "${gpu_enable}" -eq 0 ]
+	then
+		printf "Slave_Port gpu starts the GPU usage 0%%\n"
+	else
+		printf "${gpu_json} para_gpu.switch_s error\n"
+		printf "\tswitch_s : 0, means gpu 0%%; 1, means gpu 100%%\n"
+		printf "\tSlave_Port default gpu usage is 0%%\n"
+	fi
+}
+
+function monitor_gpu_kill()
+{
+	# stop master and slave gpu program
+	sudo killall matrixMul.dat &> /dev/null
+	ssh slave "sudo killall matrixMul.dat &> /dev/null"
+}
+
+function monitor_gpu_ctrlc()
+{
+	monitor_gpu_kill
+	printf "$$\n" |xargs sudo kill -9
+}
+
+function monitor_gpu_excute()
+{
+	# excute gpu program
+	monitor_gpu_kill
+	monitor_gpu_excute_master &
+	monitor_gpu_excute_slave &
+}
+
+function monitor_gpu_status_check()
+{
+	# check gpu freq and rate info template
+	status_info_gpu "${tegrastats_info}"
+	printf "$(date "+%F %T"),$1,gpu,${test_init},${gpu_rate},${gpu_freq}\n"
+}
+
+function monitor_gpu_status_master()
+{
+	# output master port gpu info
+	local tegrastats_info=$(sudo timeout 2 /home/worker/tegrastats)
+	monitor_gpu_status_check "master"
+}
+
+function monitor_gpu_status_slave()
+{
+	# output slave port gpu info
+	local tegrastats_info=$(ssh slave "sudo timeout 2 /home/worker/tegrastats")
+	monitor_gpu_status_check "slave"
+}
+
+function monitor_gpu_status_template()
+{
+	# gpu status information
+	printf "${gpu_title}\n"
+	monitor_gpu_status_master
+	monitor_gpu_status_slave
+}
+
+function monitor_gpu_result_statistic()
+{
+	local delay_time=$(jq -r ".delay_time" ${common_json})
+	local gpu_cycle=$(jq -r ".cycle_times" ${common_json})
+	local gpu_title="date,port,project,test_num,gpu_rate,gpu_freq"
+	local test_init
+	for ((test_init=1;test_init<=${gpu_cycle};test_init++))
+	do
+		sleep ${delay_time}
+		monitor_gpu_status_template > /tmp/gpu_template.log
+		csvlook /tmp/gpu_template.log
+		tail -2 /tmp/gpu_template.log |head -1 >> ${log_dir}/gpu_master_statistic.log
+		tail -1 /tmp/gpu_template.log >> ${log_dir}/gpu_slave_statistic.log
+	done
+}
+
+function monitor_gpu()
+{
+	local common_json=${RUN_PATH}/etc/share/commons
+	local gpu_json=${RUN_PATH}/config.json
+	local gpu_uos_name=$(jq -r ".uos_name" ${gpu_json})
+	local gpu_uos_path=/home/worker/${gpu_uos_name}/run
+	local log_date=$(date "+%Y-%m-%d-%H-%M-%S")
+	local log_dir=${RUN_PATH}/log/check_gpu/${log_date}
+	monitor_gpu_uospath_check
+	monitor_gpu_matrixmul_check
+	[ ! -d "${log_dir}" ] && mkdir -p ${log_dir}
+	trap "monitor_gpu_ctrlc" HUP INT QUIT
+	trap "monitor_gpu_kill" EXIT
+	monitor_gpu_excute
+	monitor_gpu_result_statistic
+}

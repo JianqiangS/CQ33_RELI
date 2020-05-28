@@ -1,0 +1,67 @@
+#!/bin/bash
+
+function monitor_cam_empty()
+{
+	ssh slave <<-eeoff
+		(
+			cd /home/worker/camera
+			sudo rm -r video*
+		)
+	eeoff
+}
+
+function monitor_cam_num()
+{
+	cam_num=$(list_version.sh |grep YES |wc -l)
+	if [ "${cam_num}" -lt 1 ]
+	then
+		printf "Please check if the camera is connected ...\n"
+		exit 1
+	fi
+}
+
+function monitor_cam_excute()
+{
+	local run_time=$(jq -r '.para_cam.run_time' ${common_json})
+	ssh slave <<-eeooff
+		(
+			pgrep check_camera |xargs sudo kill -9
+			cd /home/worker/camera
+			> ${log_summary}
+			./startup.sh ${run_time}
+		)
+	eeooff
+}
+
+function monitor_cam_result()
+{
+	local cam_excute=${log_dir}/camera_excute.log
+	local cam_statis=${log_dir}/camera_result.log
+	local delay_time=$(jq -r ".delay_time" ${common_json})
+	local cam_cycle=$(jq -r ".cycle_times" ${common_json})
+	local test_init
+	for ((test_init=1;test_init<=${cam_cycle};test_init++))
+	do
+		{
+			sleep ${delay_time}
+			ssh slave "tail -${cam_num} ${log_summary} |sort -n"
+		} >> ${cam_excute}
+		{
+			tail -${cam_num} ${cam_excute}
+		} | tee ${cam_statis}
+		monitor_cam_empty
+	done
+}
+
+function monitor_cam()
+{
+	local common_json=${RUN_PATH}/etc/share/commons
+	local log_date=$(date "+%Y-%m-%d-%H-%M-%S")
+	local log_dir=${RUN_PATH}/log/check_camera/${log_date}
+	local log_summary=/home/worker/camera/check_camera.summary
+	[ ! -d "${log_dir}" ] && mkdir -p ${log_dir}
+	monitor_cam_num
+	monitor_cam_empty
+	monitor_cam_excute &
+	monitor_cam_result
+}

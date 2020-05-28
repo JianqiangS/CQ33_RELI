@@ -1,0 +1,46 @@
+------------------------------------------------------------
+Server listening on UDP port 1001
+Receiving 1470 byte datagrams
+UDP buffer size: 25.0 MByte (default)
+------------------------------------------------------------
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 53111
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  3]  0.0-83118725.6 sec   240 MBytes  24.2 bits/sec   0.014 ms    0/170940 (0%)
+[  3]  0.0-83118725.6 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 38385
+[  4]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.016 ms    0/170930 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 59953
+[  3]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.007 ms    0/170931 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 47854
+[  4]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.012 ms    0/170924 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 33378
+[  3]  0.0-20.0 sec   240 MBytes   100 Mbits/sec   0.006 ms    0/170895 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 47758
+[  4]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.015 ms    0/170938 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 55023
+[  3]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.019 ms    0/170938 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 41088
+[  4]  0.0-20.0 sec   240 MBytes   100 Mbits/sec   0.010 ms    0/170858 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 57504
+[  3]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.019 ms    0/170931 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 38899
+[  4]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.012 ms    0/170938 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 58157
+[  3]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.016 ms    0/170928 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 59956
+[  4]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.016 ms    0/170937 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 57780
+[  3]  0.0-20.0 sec   240 MBytes   101 Mbits/sec   0.019 ms    0/170939 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 51870

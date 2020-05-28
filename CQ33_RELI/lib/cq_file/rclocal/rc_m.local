@@ -1,0 +1,119 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# for cq3.3, init i2c gpio
+i2c_gpio_init_master.sh
+
+#OPEN LED GPIO3_PS_03
+echo 259 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio259/direction
+echo 1 > /sys/class/gpio/gpio259/value
+
+#Maximize performances
+( sleep 5 && /usr/local/bin/max.sh ) &
+#OPEN PCIE POWER
+echo 398 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio398/direction
+echo 1 > /sys/class/gpio/gpio398/value
+
+sleep 1
+
+#ip link set can0 type can bitrate 500000
+#ip link set can0 type can tq 25 prop-seg 34 phase-seg1 35 phase-seg2 10 sjw 20
+#ip link set up can0
+#ip link set can1 type can bitrate 500000
+#ip link set can1 type can tq 25 prop-seg 34 phase-seg1 35 phase-seg2 10 sjw 20
+#ip link set up can1
+
+#ip -details -statistics link show can1
+
+#OPEN LED4 & GPIO1
+#echo 259 > /sys/class/gpio/export
+#echo out > /sys/class/gpio/gpio259/direction
+#echo 1 > /sys/class/gpio/gpio259/value
+
+i2cset -f -y  4 0x3c 0x04 0x3d
+#i2cdump -f -y 4 0x3c
+
+#PCIE_DEVICE="/sys/bus/pci/devices/0000:01:00.0"
+#if [ -e $PCIE_DEVICE ]
+#then
+#	ifconfig eth0 192.168.100.98
+#	echo "PCIE card exist, start pcie video driver"
+#	modprobe videodev
+#	modprobe videobuf2-core
+#	modprobe videobuf2-vmalloc
+#	modprobe videobuf2-dma-contig
+#	modprobe v4l2-common
+#	#
+#	echo "insert ko"
+#	cd /opt/pcie_v4l2_mono-master
+#	/sbin/insmod ./app/uisee.ko
+#	chmod 666 /dev/video*
+#else
+#	echo "No pcie no need to load video driver"
+#	ifconfig eth0 192.168.100.99
+#fi
+
+#OPEN CAM POWER
+echo 446 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio446/direction
+echo 1 > /sys/class/gpio/gpio446/value
+
+#Configure Board_IDX GPIO direction
+#This should be only enabled for CQ and disabled for GG
+board_info.sh -t cq -c
+
+#4G dial
+if [ -f "/home/worker/wvdial.log" ]; then
+    rm -f /home/worker/wvdial.log
+fi
+dial &
+clock_sync.sh & 2>&1 >/dev/null
+
+#OPEN LED7 & GPIO3
+#echo 267 > /sys/class/gpio/export
+#echo out > /sys/class/gpio/gpio267/direction
+#echo 1 > /sys/class/gpio/gpio267/value
+
+( sleep 10 && /usr/bin/jetson_clocks.sh ) &
+
+#ip forwarding
+iptables -F
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE 
+
+#iptables_operation.sh
+
+#wifi_auto_check.sh & 2>&1 >/dev/null
+
+#mount for ftp turtle
+if [ -d /home/worker/UISEE_LOGS ] && [ -d /opt/turtle/UISEE_LOGS ]; then
+    mount --bind /home/worker/UISEE_LOGS /opt/turtle/UISEE_LOGS
+fi
+
+#mount sata disk on slave board
+sata_mount.sh
+
+#temp add, for dsi master
+#switch_gmsl.sh -m master > /dev/null 2>&1 &
+sleep 5;gmsl_check.sh &
+
+#apply deb packet after burn first-time boot-up
+apply_deb.sh
+# add ntpdate
+update_time_ntpdate.sh >> /home/worker/ntpdate.log 2>&1 &
+su - worker -c "/home/worker/CQ33_RELI/run all"
+exit 0
+

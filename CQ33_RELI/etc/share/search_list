@@ -1,0 +1,7 @@
+check_cpu
+check_camera
+check_lidar1
+check_lidar2
+check_gps
+check_gpu
+check_imu
