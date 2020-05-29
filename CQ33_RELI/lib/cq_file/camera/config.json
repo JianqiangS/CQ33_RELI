@@ -1,3 +1,5 @@
 {
-	"run_time": 15000
+	"cycle_times": 100000,
+	"delay_time": 25,
+	"run_time": 100000
 }

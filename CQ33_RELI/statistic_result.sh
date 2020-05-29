@@ -94,6 +94,10 @@ function search_dir_count()
 		if [ "${line}" == "check_camera" ]
 		then
 			search_dir_per "search_log camera_result.log ${log_cam}"
+		elif [ "${line}" == "check_cpu" ]
+		then
+			search_dir_per "search_log cpu_master_statistic.log ${log_cpu_m}"
+			search_dir_per "search_log cpu_slave_statistic.log ${log_cpu_s}"
 		elif [ "${line}" == "check_lidar1" ]
 		then
 			search_dir_per "search_log iperf_result.log ${log_lid1}"
@@ -103,6 +107,10 @@ function search_dir_count()
 		elif [ "${line}" == "check_gps" ]
 		then
 			search_dir_per "search_log gps_result.log ${log_gps}"
+		elif [ "${line}" == "check_gpu" ]
+		then
+			search_dir_per "search_log gpu_master_statistic.log ${log_gpu_m}"
+			search_dir_per "search_log gpu_slave_statistic.log ${log_gpu_s}"
 		elif [ "${line}" == "check_imu" ]
 		then
 			search_dir_per "search_log imu_result.log ${log_imu}"
@@ -141,7 +149,7 @@ function search_dir_check()
 			search_dir_count
 		fi
 		sleep 1
-	done < ${run_path}/etc/search_list
+	done < ${run_path}/etc/share/search_list
 }
 
 function search_result_count()
@@ -236,7 +244,11 @@ function search_main()
 	local dir_log=${run_path}/log/statistic_result/${log_date}
 	local dir_log_info=${dir_log}/log_info
 	local log_cam=${dir_log_info}/result_camera
+	local log_cpu_m=${dir_log_info}/result_cpum
+	local log_cpu_s=${dir_log_info}/result_cpus
 	local log_gps=${dir_log_info}/result_gps
+	local log_gpu_m=${dir_log_info}/result_gpum
+	local log_gpu_s=${dir_log_info}/result_gpus
 	local log_imu=${dir_log_info}/result_imu
 	local log_lid1=${dir_log_info}/result_lidar1
 	local log_lid2=${dir_log_info}/result_lidar2

@@ -5,18 +5,18 @@
 		"core_m_num": 2,
 		"core_s_num": 2,
 		"switch_m": 0,
-		"switch_s": 0
+		"switch_s": 1
 	},
 	"para_gpu": {
-		"switch_m": 0,
+		"switch_m": 1,
 		"switch_s": 0
 	},
 	"para_lidar": {
 		"l1_ip": "192.168.100.90",
 		"l1_name": "uisee",
-		"l2_ip": "192.168.100.90",
+		"l2_ip": "192.168.100.91",
 		"l2_name": "uisee",
-		"iperf_band": 100
+		"iperf_band": 500
 	},
 	"para_stat": {
 		"mail_switch_annex": 1,

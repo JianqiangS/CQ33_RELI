@@ -1,6 +1,6 @@
 #!/bin/bash
-#RUN_PATH=/home/worker/CQ33_RELI
-RUN_PATH=.
+
+RUN_PATH=/home/worker/CQ33_RELI
 source ${RUN_PATH}/etc/function_deb.sh
 source ${RUN_PATH}/etc/function_logger.sh
 source ${RUN_PATH}/etc/function_public.sh
