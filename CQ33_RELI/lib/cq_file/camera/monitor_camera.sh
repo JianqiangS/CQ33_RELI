@@ -5,8 +5,10 @@ function monitor_cam_num()
 	cam_num=$(get_camera_status.sh |grep YES |wc -l)
 	if [ "${cam_num}" -lt 1 ]
 	then
+	{
 		printf "Please check if the camera is connected ...\n"
 		exit 1
+	}
 	fi
 }
 
@@ -30,14 +32,17 @@ function monitor_cam_result()
 	local i
 	for ((i=1;i<${cycle_time};i++))
 	do
+	{
                 {
                         sleep ${delay_time}
                         tail -${cam_num} ${log_summary} |sort -n
                 } >> ${cam_excute}
+
                 {
                         tail -${cam_num} ${cam_excute}
                 } | tee ${cam_statis}
 		monitor_cam_empty
+	}
         done
 }
 

@@ -4,6 +4,7 @@ RUN_PATH=/home/worker/CQ33_RELI
 source ${RUN_PATH}/etc/function_deb.sh
 source ${RUN_PATH}/etc/function_logger.sh
 source ${RUN_PATH}/etc/function_public.sh
+source ${RUN_PATH}/etc/function_version.sh
 source ${RUN_PATH}/bin/fb_switch
 source ${RUN_PATH}/bin/monitor_camera
 source ${RUN_PATH}/bin/monitor_cpu
@@ -52,32 +53,40 @@ function main_excute_all()
 function main_mode_select()
 {
 	case $1 in
-		1)	fb_switch			;;
-		2)	monitor_cam			;;
-		3)	monitor_fan			;;
-		4)	monitor_gps			;;
-		5)	monitor_lidar 1		;;
-		6)	monitor_lidar 2		;;
-		7)	monitor_imu			;;
-		8)	monitor_cpu			;;
-		9)	monitor_gpu			;;
-		all) main_excute_all	;;
-		*) 
-			main_help_info
-			exit 1				;;
+		1)	fb_switch	;;
+		2)	monitor_cam	;;
+		3)	monitor_fan	;;
+		4)	monitor_gps	;;
+		5)	monitor_lidar 1	;;
+		6)	monitor_lidar 2	;;
+		7)	monitor_imu	;;
+		8)	monitor_cpu	;;
+		9)	monitor_gpu	;;
+		all) 	main_excute_all	;;
+		*) 	main_help_info	;;
 	esac
 }
 
 main_deb_check
-while getopts ":vhm:" arg
+
+if [ "$#" -lt 1 ]
+then
+{
+	main_help_info
+}
+fi
+
+while getopts ":vhpm:" arg
 do
+{
 	case ${arg} in
 		h)	main_help_info		;;
 		v)	main_list_version	;;
+		p)	para_set |csvlook	;;	
 		m)
 			var=${OPTARG}
 			main_mode_select ${var}	;;
-		*)
-			main_help_info	;;
+		*)	main_help_info		;;
 	esac
+}
 done

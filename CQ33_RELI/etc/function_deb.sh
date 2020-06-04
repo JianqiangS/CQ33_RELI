@@ -12,7 +12,9 @@ function cq_cam_file()
 	local camera_file=$(ssh slave "ls -l ${log_summary}")
 	if [ -z "${camera_file}" ]
 	then
+	{
 		scp -r ${RUN_PATH}/lib/cq_file/camera slave:~/
+	}
 	fi
 }
 

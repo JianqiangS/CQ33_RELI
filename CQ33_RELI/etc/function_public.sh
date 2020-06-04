@@ -13,12 +13,14 @@ function progress_bar()
 	local array=("|" "/" "-" "\\")
 	for i in {0..100}
 	do
+	{
 		let index%=4
 		printf "${C_B_GREEN} Progress: [%d%%]${C_F_RES} [%-100s] [\E[1;3${index}m%c${C_F_RES}]\r" "$i" "$str" "${array[$index]}"
 		sleep $1
 		let i++
 		let index++
 		str+='#'
+	}
 	done
 	printf "\n"
 }

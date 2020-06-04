@@ -4,23 +4,23 @@
 	"para_cpu": {
 		"core_m_num": 2,
 		"core_s_num": 2,
-		"switch_m": 0,
+		"switch_m": 1,
 		"switch_s": 1
 	},
 	"para_gpu": {
 		"switch_m": 1,
-		"switch_s": 0
+		"switch_s": 1
 	},
 	"para_lidar": {
-		"l1_ip": "192.168.100.90",
-		"l1_name": "uisee",
-		"l2_ip": "192.168.100.91",
-		"l2_name": "uisee",
+		"l1_ip": "192.168.100.105",
+		"l1_name": "worker",
+		"l2_ip": "192.168.100.105",
+		"l2_name": "worker",
 		"iperf_band": 500
 	},
 	"para_stat": {
-		"mail_switch_annex": 1,
+		"mail_switch_annex": 0,
 		"mail_switch_content": 1,
-		"mail_cc_account" : "jianqiangx.shang@uisee.com"
+		"mail_cc_account" : "jianqiangx.shang@uisee.com, 425833796@qq.com"
 	}
 }

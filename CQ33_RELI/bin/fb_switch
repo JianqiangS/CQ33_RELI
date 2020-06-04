@@ -19,11 +19,13 @@ function fb_switch_rclocal_check()
 	grep "RELI" /etc/rc.local > /dev/null
 	if [ "$?" -ne 0 ]
 	then
+	{
 		sudo cp ${RUN_PATH}/lib/cq_file/rclocal/rc_m.local ${rc_local}
 		scp ${RUN_PATH}/lib/cq_file/rclocal/rc_s.local worker@192.168.100.98:/home/worker
 		ssh slave <<-eof
 			sudo mv /home/worker/rc_s.local ${rc_local}
 		eof
+	}
 	fi
 }
 

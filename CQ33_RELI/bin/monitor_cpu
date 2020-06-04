@@ -5,28 +5,40 @@ function monitor_cpu_excute_master(){
 	local cpu_enable=$(jq -r ".para_cpu.switch_m" ${cpu_json})
 	if [ "${cpu_enable}" -eq 1 ]
 	then
+	{
 		local core_m_num=$(jq -r ".para_cpu.core_m_num" ${cpu_json})
 		local board_m_num=$(lscpu |grep CPU\(s\) |head -1 |awk '{print $2}')
 		if [ "${core_m_num}" -eq 0 ] || [ "${core_m_num}" -eq "${board_m_num}" ]
 		then
+		{
 			local cpu_m_num=${board_m_num}
+		}
 		elif [ "${core_m_num}" -gt 0 ] && [ "${core_m_num}" -lt "${board_m_num}" ]
 		then
+		{
 			local cpu_m_num=${core_m_num}
+		}
 		else
+		{
 			printf "${cpu_json} para_cpu.core_m_num error\n"
 			printf "\tMaster_Port default cpu usage is 3x100%%\n"
 			local cpu_m_num=3
+		}
 		fi
 		printf "Master_Port Stress-ng starts the CPU usage ${cpu_m_num}x100%%\n"
 		stress-ng -c ${cpu_m_num} -t ${cpu_time_dur}${cpu_time_unit}
+	}
 	elif [ "${cpu_enable}" -eq 0 ]
 	then
+	{
 		printf "Master_Port cpu starts the CPU usage 0%%\n"
+	}
 	else
+	{
 		printf "${cpu_json} para_cpu.switch_m error\n"
 		printf "\tswitch_m : 0, means cpu disable; 1, means cpu enable\n"
 		printf "\tMaster_Port default cpu usage is 0%%\n"
+	}
 	fi
 }
 
@@ -36,29 +48,41 @@ function monitor_cpu_excute_slave()
 	local cpu_enable=$(jq -r ".para_cpu.switch_s" ${cpu_json})
 	if [ "${cpu_enable}" -eq 1 ]
 	then
+	{
 		local core_s_num=$(jq -r ".para_cpu.core_s_num" ${cpu_json})
 		local board_s_num_info=$(ssh slave "lscpu |grep CPU\(s\) |head -1")
 		local board_s_num=$(echo "${board_s_num_info}" |awk '{print $2}')
 		if [ "${core_s_num}" -eq 0 ] || [ "${core_s_num}" -eq "${board_s_num}" ]
 		then
+		{
 			local cpu_s_num=${board_s_num}
+		}
 		elif [ "${core_s_num}" -gt 0 ] && [ "${core_s_num}" -lt "${board_s_num}" ]
 		then
+		{
 			local cpu_s_num=${core_s_num}
+		}
 		else
+		{
 			printf "${cpu_json} para_cpu.core_s_num error\n"
 			printf "\tSlave_Port default cpu usage is 3x100%%\n"
 			local cpu_s_num=3
+		}
 		fi
 		printf "Slave_Port Stress-ng starts the CPU usage ${cpu_s_num}x100%%\n"
 		ssh slave "stress-ng -c ${cpu_s_num} -t ${cpu_time_dur}${cpu_time_unit}"
+	}
 	elif [ "${cpu_enable}" -eq 0 ]
 	then
+	{
 		printf "Slave_Port cpu starts the CPU usage 0%%\n"
+	}
 	else
+	{
 		printf "${cpu_json} para_cpu.switch_s error\n"
 		printf "\tswitch_s : 0, means cpu disable; 1, means cpu enable\n"
 		printf "\tSlave_Port default cpu usage is 0%%\n"
+	}
 	fi
 }
 
@@ -125,11 +149,13 @@ function monitor_cpu_result_statistic()
 	local test_init
 	for ((test_init=1;test_init<=${cpu_cycle};test_init++))
 	do
+	{
 		sleep ${delay_time}
 		monitor_cpu_status_template > /tmp/cpu_template.log
 		csvlook /tmp/cpu_template.log
 		tail -2 /tmp/cpu_template.log |head -1 >> ${log_dir}/cpu_master_statistic.log
 		tail -1 /tmp/cpu_template.log >> ${log_dir}/cpu_slave_statistic.log
+	}
 	done
 }
 

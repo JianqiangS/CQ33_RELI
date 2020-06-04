@@ -5,9 +5,11 @@ function monitor_gpu_uospath_check()
 	# check deploy uos package
 	if [ ! -d "${gpu_uos_path}" ]
 	then
+	{
 		printf "${gpu_uos_path} not exist\n"
 		printf "please check ${gpu_json} uos_name\n"
 		exit 1
+	}
 	fi
 }
 
@@ -17,13 +19,17 @@ function monitor_gpu_matrixmul_check()
 	local matrixmul_file=${gpu_uos_path}/matrixMul.dat
 	if [ ! -f "${matrixmul_file}" ]
 	then
+	{
 		cp ${RUN_PATH}/lib/cq_file/gpu/matrixMul.dat ${gpu_uos_path}
+	}
 	fi
 	
 	local matrixmul_file_s=$(ssh slave "ls -l ${matrixmul_file}")
 	if [ -z "${matrixmul_file_s}" ]
 	then
+	{
 		scp ${RUN_PATH}/lib/cq_file/gpu/matrixMul.dat slave:${gpu_uos_path}
+	}
 	fi
 	
 	chmod +x ${matrixmul_file}
@@ -36,6 +42,7 @@ function monitor_gpu_excute_master()
 	local gpu_enable=$(jq -r ".para_gpu.switch_m" ${gpu_json})
 	if [ "${gpu_enable}" -eq 1 ]
 	then
+	{
 		printf "Master_Port gpu starts the GPU usage 100%%\n"
 		(
 			{
@@ -44,13 +51,18 @@ function monitor_gpu_excute_master()
 				./matrixMul.dat
 			} > /dev/null
 		)
+	}
 	elif [ "${gpu_enable}" -eq 0 ]
 	then
+	{
 		printf "Master_Port gpu starts the GPU usage 0%%\n"
+	}
 	else
+	{
 		printf "${gpu_json} para_gpu.switch_m error\n"
 		printf "\tswitch_m : 0, means gpu 0%%; 1, means gpu 100%%\n"
 		printf "\tMaster_Port default gpu usage is 0%%\n"
+	}
 	fi
 }
 
@@ -60,6 +72,7 @@ function monitor_gpu_excute_slave()
 	local gpu_enable=$(jq -r ".para_gpu.switch_s" ${gpu_json})
 	if [ "${gpu_enable}" -eq 1 ]
 	then
+	{
 		printf "Slave_Port gpu starts the GPU usage 100%%\n"
 		ssh slave <<-eof
 		(
@@ -70,13 +83,18 @@ function monitor_gpu_excute_slave()
 			} > /dev/null
 		)
 		eof
+	}
 	elif [ "${gpu_enable}" -eq 0 ]
 	then
+	{
 		printf "Slave_Port gpu starts the GPU usage 0%%\n"
+	}
 	else
+	{
 		printf "${gpu_json} para_gpu.switch_s error\n"
 		printf "\tswitch_s : 0, means gpu 0%%; 1, means gpu 100%%\n"
 		printf "\tSlave_Port default gpu usage is 0%%\n"
+	}
 	fi
 }
 
@@ -138,11 +156,13 @@ function monitor_gpu_result_statistic()
 	local test_init
 	for ((test_init=1;test_init<=${gpu_cycle};test_init++))
 	do
+	{
 		sleep ${delay_time}
 		monitor_gpu_status_template > /tmp/gpu_template.log
 		csvlook /tmp/gpu_template.log
 		tail -2 /tmp/gpu_template.log |head -1 >> ${log_dir}/gpu_master_statistic.log
 		tail -1 /tmp/gpu_template.log >> ${log_dir}/gpu_slave_statistic.log
+	}
 	done
 }
 

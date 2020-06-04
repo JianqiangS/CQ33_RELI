@@ -5,8 +5,10 @@ function monitor_lidar_check_template()
 	ssh $1@$2 "ifconfig > /dev/null"
 	if [ "$?" -ne 0 ]
 	then
+	{
 		printf "L$3 name '$1' or L$3 ip '$2' or connect lineroute error ...\n" 
 		exit 1
+	}
 	fi
 }
 
@@ -17,6 +19,7 @@ function monitor_lidar_client_template()
 	local test_init
 	for ((test_init=1;test_init<=${lidar_cycle};test_init++))
 	do
+	{
 		(
 			ssh $2@$3 <<-eeooff
 				iperf -u -c 192.168.100.99\
@@ -26,6 +29,7 @@ function monitor_lidar_client_template()
 		)
 		sleep ${delay_time} && sync
 		monitor_lidar_server_check $1
+	}
 	done
 }
 
@@ -40,22 +44,30 @@ function monitor_lidar_server_check(){
 	local server_log=${log_dir}/iperf_server.log
 	if [ -f "${server_log}" ]
 	then
+	{
 		local server_result=$(grep "%" ${server_log} |awk -F "(" '{print $2}' |awk -F "%" '{print $1}')
 		local result_count=$(echo "${server_result}" |wc -l)
 		local result_succ=0
 		local result_fail=0
 		for i in $(echo "${server_result}")
 		do
+		{
 			if [ $(echo "$i < 1.0" | bc) -gt 0 ]
 			then
+			{
 				let result_succ++
+			}
 			else
+			{
 				let result_fail++
+			}
 			fi 
+		}
 		done
 		{
 			printf "$(date "+%F %T"),interface=$1,times=${result_count},succ=${result_succ},fail=${result_fail}\n"
 		} |tee ${log_dir}/iperf_result.log
+	}
 	fi
 }
 
@@ -69,9 +81,13 @@ function monitor_lidar_excute_template()
 	[ ! -d "${log_dir}" ] && mkdir -p ${log_dir}
 	if [ "$1" == "lidar1" ]
 	then
+	{
 		local port=$(jq -r '.para_lidar.l1_port' ${common_json})
+	}
 	else
+	{
 		local port=$(jq -r '.para_lidar.l2_port' ${common_json})
+	}
 	fi
 	monitor_lidar_server & 
 	(

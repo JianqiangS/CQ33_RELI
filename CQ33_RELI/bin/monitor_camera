@@ -15,8 +15,10 @@ function monitor_cam_num()
 	cam_num=$(list_version.sh |grep YES |wc -l)
 	if [ "${cam_num}" -lt 1 ]
 	then
+	{
 		printf "Please check if the camera is connected ...\n"
 		exit 1
+	}
 	fi
 }
 
@@ -42,14 +44,17 @@ function monitor_cam_result()
 	local test_init
 	for ((test_init=1;test_init<=${cam_cycle};test_init++))
 	do
+	{
 		{
 			sleep ${delay_time}
 			ssh slave "tail -${cam_num} ${log_summary} |sort -n"
 		} >> ${cam_excute}
+
 		{
 			tail -${cam_num} ${cam_excute}
 		} | tee ${cam_statis}
 		monitor_cam_empty
+	}
 	done
 }
 
