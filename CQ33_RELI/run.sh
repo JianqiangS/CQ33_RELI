@@ -41,6 +41,7 @@ function main_help_info()
 
 function main_excute_all()
 {
+	sleep 60
 	#monitor_fan &
 	#monitor_gps &
 	monitor_lidar 1 &

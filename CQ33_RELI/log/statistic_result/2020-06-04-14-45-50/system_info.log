@@ -1,0 +1,102 @@
+-----------------------------------------------------------------------------------------------
+[2020-06-04 14:45:59] [info] [master] [version]
+Script Version : 	1.0
+Board Type:		GG3.1
+System Version:		"2.0.9",
+
+======================================================================================
+|  PORT  |  PRESENT  |      SERIAL NUMBER         |       FORMAT       |   VERSION   |
+======================================================================================
+|    0   |     NO    |              NULL          |        NULL        |     NULL    |
+|    1   |     NO    |              NULL          |        NULL        |     NULL    |
+|    2   |     NO    |              NULL          |        NULL        |     NULL    |
+|    3   |     NO    |              NULL          |        NULL        |     NULL    |
+|    4   |     NO    |              NULL          |        NULL        |     NULL    |
+|    5   |     NO    |              NULL          |        NULL        |     NULL    |
+|    6   |     NO    |              NULL          |        NULL        |     NULL    |
+|    7   |     NO    |              NULL          |        NULL        |     NULL    |
+======================================================================================
+
+-----------------------------------------------------------------------------------------------
+[2020-06-04 14:46:00] [info] [master] [system status]
+RAM 724/6847MB (lfb 774x4MB) CPU [0%@1899,0%@1957,0%@1959,0%@1912,0%@1914,0%@1914] EMC_FREQ 0%@1600 GR3D_FREQ 0%@1134 APE 158 MTS fg 0% bg 0% BCPU@45C MCPU@45C GPU@42.5C PLL@45C Tboard@40C Tdiode@43C PMIC@100C thermal@44.5C VDD_IN 3521/3521 VDD_CPU 495/495 VDD_GPU 148/148 VDD_SOC 743/743 VDD_WIFI 0/0 VDD_DDR 730/730
+RAM 725/6847MB (lfb 774x4MB) CPU [0%@1894,1%@1958,1%@1957,0%@1911,1%@1914,1%@1915] EMC_FREQ 0%@1600 GR3D_FREQ 0%@1134 APE 158 MTS fg 0% bg 0% BCPU@45.5C MCPU@45.5C GPU@43C PLL@45.5C Tboard@40C Tdiode@43C PMIC@100C thermal@44.2C VDD_IN 3397/3459 VDD_CPU 396/445 VDD_GPU 148/148 VDD_SOC 743/743 VDD_WIFI 0/0 VDD_DDR 730/730
+
+ 14:46:02 up 6 days,  4:50,  6 users,  load average: 2.02, 2.03, 2.00
+
+Filesystem       Size  Used Avail Use% Mounted on
+/dev/root        8.8G  5.8G  2.6G  70% /
+devtmpfs         6.6G     0  6.6G   0% /dev
+tmpfs            6.7G     0  6.7G   0% /dev/shm
+tmpfs            6.7G  645M  6.1G  10% /run
+tmpfs            5.0M  4.0K  5.0M   1% /run/lock
+tmpfs            6.7G     0  6.7G   0% /sys/fs/cgroup
+/dev/mmcblk0p29   19G  9.1G  8.9G  51% /home
+tmpfs            685M  4.0K  685M   1% /run/user/106
+/dev/sda         459G  133G  303G  31% /home/worker/disk
+tmpfs            685M  4.0K  685M   1% /run/user/999
+
+              total        used        free      shared  buff/cache   available
+Mem:           6.7G        458M        3.1G        652M        3.2G        5.5G
+Swap:            0B          0B          0B
+
+-----------------------------------------------------------------------------------------------
+[2020-06-04 14:46:02] [info] [slave] [system status]
+Welcome to Ubuntu 16.04 LTS (GNU/Linux 4.4.38+ aarch64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+565 packages can be updated.
+291 updates are security updates.
+
+New release '18.04.4 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+RAM 653/6847MB (lfb 1368x4MB) CPU [0%@1917,0%@1957,0%@1958,0%@1917,0%@1915,0%@1920] EMC_FREQ 11%@1600 GR3D_FREQ 99%@1134 APE 158 MTS fg 3% bg 0% BCPU@60.5C MCPU@60.5C GPU@59C PLL@60.5C Tboard@56C Tdiode@59.75C PMIC@100C thermal@60.2C VDD_IN 10357/10357 VDD_CPU 3458/3458 VDD_GPU 3114/3114 VDD_SOC 988/988 VDD_WIFI 0/0 VDD_DDR 1346/1346
+RAM 653/6847MB (lfb 1368x4MB) CPU [100%@1915,100%@1957,100%@1958,0%@1922,0%@1914,0%@1918] EMC_FREQ 11%@1600 GR3D_FREQ 99%@1134 APE 158 MTS fg 0% bg 0% BCPU@60.5C MCPU@60.5C GPU@59C PLL@60.5C Tboard@56C Tdiode@59.75C PMIC@100C thermal@59.9C VDD_IN 9968/10162 VDD_CPU 3114/3286 VDD_GPU 3164/3139 VDD_SOC 939/963 VDD_WIFI 0/0 VDD_DDR 1288/1317
+
+ 14:46:05 up 6 days,  4:59,  1 user,  load average: 5.08, 5.02, 5.01
+
+Filesystem       Size  Used Avail Use% Mounted on
+/dev/root        8.8G  5.1G  3.3G  61% /
+devtmpfs         6.6G     0  6.6G   0% /dev
+tmpfs            6.7G     0  6.7G   0% /dev/shm
+tmpfs            6.7G  150M  6.6G   3% /run
+tmpfs            5.0M     0  5.0M   0% /run/lock
+tmpfs            6.7G     0  6.7G   0% /sys/fs/cgroup
+/dev/mmcblk0p29   19G  6.8G   12G  38% /home
+tmpfs            685M  4.0K  685M   1% /run/user/999
+
+              total        used        free      shared  buff/cache   available
+Mem:           6.7G        567M        5.4G        160M        777M        5.9G
+Swap:            0B          0B          0B
+
+-----------------------------------------------------------------------------------------------
+[2020-06-04 14:46:05] [info] [master] [config para]
+{
+	"fb_switch": 1,
+	"uos_name": "uisee_0424",
+	"para_cpu": {
+		"core_m_num": 2,
+		"core_s_num": 2,
+		"switch_m": 1,
+		"switch_s": 1
+	},
+	"para_gpu": {
+		"switch_m": 1,
+		"switch_s": 1
+	},
+	"para_lidar": {
+		"l1_ip": "192.168.100.105",
+		"l1_name": "worker",
+		"l2_ip": "192.168.100.105",
+		"l2_name": "worker",
+		"iperf_band": 500
+	},
+	"para_stat": {
+		"mail_switch_annex": 0,
+		"mail_switch_content": 1,
+		"mail_cc_account" : "jianqiangx.shang@uisee.com, 425833796@qq.com"
+	}
+}
+-----------------------------------------------------------------------------------------------

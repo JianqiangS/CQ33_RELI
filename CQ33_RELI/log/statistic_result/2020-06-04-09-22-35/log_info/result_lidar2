@@ -1,0 +1,8 @@
+2018-10-01 01:04:49,interface=lidar2,times=13,succ=13,fail=0
+2018-10-01 01:13:55,interface=lidar2,times=8,succ=8,fail=0
+2018-10-01 01:39:44,interface=lidar2,times=67,succ=67,fail=0
+2018-10-04 05:30:46,interface=lidar2,times=16,succ=0,fail=16
+2018-10-04 05:45:13,interface=lidar2,times=31,succ=19,fail=12
+2018-10-04 06:34:51,interface=lidar2,times=129,succ=129,fail=0
+2018-10-04 09:37:54,interface=lidar2,times=50,succ=42,fail=8
+2020-06-04 09:12:50,interface=lidar2,times=317,succ=317,fail=0
