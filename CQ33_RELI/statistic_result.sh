@@ -39,14 +39,14 @@ function search_log_header_template()
 function search_log_header()
 {
 	local header_template="date,port,unit,test_times"
+	local cam_header="date,,video_node,frame_total,frame_drop,frame_split"
 	local cpu_header="${header_template},cpu0_r,cpu0_f,cpu1_r,cpu1_f,cpu2_r,cpu2_f,cpu3_r,cpu3_f,cpu4_r,cpu4_f,cpu5_r,cpu5_f,temp"
 	local gpu_header="${header_template},gpu_r,gpu_f"
-	local cam_header="date,,video_node,frame_total,frame_drop,frame_split"
+	search_log_header_template "${log_cam}" "${cam_header}"
 	search_log_header_template "${log_cpu_m}" "${cpu_header}"
 	search_log_header_template "${log_cpu_s}" "${cpu_header}"
 	search_log_header_template "${log_gpu_m}" "${gpu_header}"
 	search_log_header_template "${log_gpu_s}" "${gpu_header}"
-	search_log_header_template "${log_cam}" "${cam_header}"
 }
 
 function search_lidar_count()
