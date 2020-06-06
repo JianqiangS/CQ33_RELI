@@ -1,0 +1,199 @@
+------------------------------------------------------------
+Server listening on UDP port 1001
+Receiving 1470 byte datagrams
+UDP buffer size: 25.0 MByte (default)
+------------------------------------------------------------
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 48100
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  3]  0.0-20.0 sec  1.05 GBytes   449 Mbits/sec   0.177 ms 15209/779674 (2%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 34435
+[  4]  0.0-20.0 sec  1.13 GBytes   485 Mbits/sec   0.017 ms  387/824618 (0.047%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 50664
+[  3]  0.0-20.0 sec  1.12 GBytes   483 Mbits/sec   0.026 ms 8348/829413 (1%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 47695
+[  4]  0.0-20.0 sec  1.12 GBytes   482 Mbits/sec   0.012 ms 7760/827793 (0.94%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 48354
+[  3]  0.0-20.0 sec  1.12 GBytes   482 Mbits/sec   0.016 ms 14345/833993 (1.7%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 39171
+[  4]  0.0-20.0 sec  1.12 GBytes   483 Mbits/sec   0.012 ms 3897/824792 (0.47%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 52902
+[  3]  0.0-20.0 sec  1.13 GBytes   484 Mbits/sec   0.017 ms 9695/832175 (1.2%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 60074
+[  4]  0.0-20.0 sec  1.12 GBytes   483 Mbits/sec   0.018 ms 4064/825505 (0.49%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 50263
+[  3]  0.0-20.0 sec  1.13 GBytes   483 Mbits/sec   0.016 ms  230/822688 (0.028%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 42198
+[  4]  0.0-20.0 sec  1.13 GBytes   483 Mbits/sec   0.016 ms 2090/824016 (0.25%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 33705
+[  3]  0.0-20.0 sec  1.13 GBytes   484 Mbits/sec   0.015 ms 3327/825981 (0.4%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 46117
+[  4]  0.0-20.0 sec  1.13 GBytes   486 Mbits/sec   0.026 ms 1530/827838 (0.18%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 43953
+[  3]  0.0-20.0 sec  1.12 GBytes   483 Mbits/sec   0.014 ms 6671/827854 (0.81%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 33604
+[  4]  0.0-20.0 sec  1.13 GBytes   486 Mbits/sec   0.011 ms 1497/828032 (0.18%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 46347
+[  3]  0.0-20.0 sec  1.13 GBytes   486 Mbits/sec   0.011 ms 13287/839933 (1.6%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 52976
+[  4]  0.0-20.0 sec  1.13 GBytes   485 Mbits/sec   0.117 ms 2136/827265 (0.26%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 46452
+[  3]  0.0-20.0 sec  1.13 GBytes   485 Mbits/sec   0.021 ms 1068/826780 (0.13%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 56177
+[  4]  0.0-20.0 sec  1.13 GBytes   486 Mbits/sec   0.016 ms 5211/831899 (0.63%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 50695
+[  3]  0.0-20.0 sec  1.14 GBytes   488 Mbits/sec   0.073 ms 6916/837101 (0.83%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 57287
+[  4]  0.0-20.0 sec  1.13 GBytes   486 Mbits/sec   0.053 ms  279/827291 (0.034%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 39650
+[  3]  0.0-20.0 sec  1.13 GBytes   487 Mbits/sec   0.015 ms 15514/844471 (1.8%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 46428
+[  4]  0.0-20.0 sec  1.15 GBytes   492 Mbits/sec   0.020 ms 2273/839144 (0.27%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 56753
+[  3]  0.0-20.0 sec  1.14 GBytes   490 Mbits/sec   0.019 ms 9926/843582 (1.2%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 51954
+[  4]  0.0-20.0 sec  1.14 GBytes   491 Mbits/sec   0.013 ms 4686/840589 (0.56%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 53509
+[  3]  0.0-20.0 sec  1.14 GBytes   489 Mbits/sec   0.012 ms 2149/833743 (0.26%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 49223
+[  4]  0.0-20.0 sec  1.14 GBytes   491 Mbits/sec   0.082 ms 3896/839160 (0.46%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 49083
+[  3]  0.0-20.0 sec  1.15 GBytes   492 Mbits/sec   0.027 ms 3491/840274 (0.42%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 59440
+[  4]  0.0-20.0 sec  1.15 GBytes   493 Mbits/sec   0.011 ms 5454/843532 (0.65%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 42757
+[  3]  0.0-20.0 sec  1.15 GBytes   494 Mbits/sec   0.134 ms 4604/844191 (0.55%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 34548
+[  4]  0.0-20.0 sec  1.15 GBytes   493 Mbits/sec   0.015 ms 4649/843872 (0.55%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 43532
+[  3]  0.0-20.3 sec  1.15 GBytes   487 Mbits/sec  15.409 ms 1494/839283 (0.18%)
+[  3]  0.0-20.3 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 40903
+[  4]  0.0-20.0 sec  1.15 GBytes   495 Mbits/sec   0.015 ms 2905/844330 (0.34%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 53976
+[  3]  0.0-20.0 sec  1.15 GBytes   495 Mbits/sec   0.019 ms 3222/844821 (0.38%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 44783
+[  4]  0.0-20.0 sec  1.15 GBytes   494 Mbits/sec   0.086 ms 2032/841812 (0.24%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 43372
+[  3]  0.0-20.0 sec  1.15 GBytes   494 Mbits/sec   0.038 ms    0/840199 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 32810
+[  4]  0.0-20.0 sec  1.15 GBytes   495 Mbits/sec   0.017 ms 2252/844940 (0.27%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 52691
+[  3]  0.0-20.0 sec  1.16 GBytes   496 Mbits/sec   0.012 ms    0/843822 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 45760
+[  4]  0.0-20.0 sec  1.15 GBytes   495 Mbits/sec   0.056 ms  396/843205 (0.047%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 36633
+[  3]  0.0-20.0 sec  1.16 GBytes   498 Mbits/sec   0.048 ms   72/847434 (0.0085%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 56238
+[  4]  0.0-20.0 sec  1.16 GBytes   498 Mbits/sec   0.016 ms 1699/848719 (0.2%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 56616
+[  3]  0.0-20.0 sec  1.16 GBytes   499 Mbits/sec   0.028 ms 5310/854636 (0.62%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 43020
+[  4]  0.0-20.0 sec  1.16 GBytes   500 Mbits/sec   0.018 ms 4268/854812 (0.5%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 51652
+[  3]  0.0-20.0 sec  1.17 GBytes   500 Mbits/sec   0.076 ms  901/851998 (0.11%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 53606
+[  4]  0.0-20.0 sec  1.17 GBytes   502 Mbits/sec   0.012 ms  101/854019 (0.012%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 35202
+[  3]  0.0-20.0 sec  1.17 GBytes   502 Mbits/sec   0.016 ms 2518/856035 (0.29%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 32994
+[  4]  0.0-20.0 sec  1.17 GBytes   502 Mbits/sec   0.019 ms 1069/855284 (0.12%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 53629
+[  3]  0.0-20.0 sec  1.17 GBytes   503 Mbits/sec   0.018 ms 1202/857478 (0.14%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 38790
+[  4]  0.0-20.0 sec  1.17 GBytes   504 Mbits/sec   0.016 ms 1233/858513 (0.14%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 33474
+[  3]  0.0-20.0 sec  1.18 GBytes   505 Mbits/sec   0.134 ms    0/858774 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 52409
+[  4]  0.0-20.0 sec  1.18 GBytes   506 Mbits/sec   0.017 ms 1517/862372 (0.18%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 59204
+[  3]  0.0-20.0 sec  1.18 GBytes   507 Mbits/sec   0.017 ms 1094/863229 (0.13%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 39151
+[  4]  0.0-20.0 sec  1.18 GBytes   507 Mbits/sec   0.090 ms    0/862560 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 50940
+[  3]  0.0-20.0 sec  1.18 GBytes   508 Mbits/sec   0.018 ms    0/864649 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 50920
+[  4]  0.0-20.0 sec  1.19 GBytes   509 Mbits/sec   0.085 ms    0/866633 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 59878
+[  3]  0.0-20.0 sec  1.19 GBytes   510 Mbits/sec   0.009 ms    0/866896 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 33624
+[  4]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.015 ms    0/868876 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 57973
+[  3]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.019 ms    0/869098 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 60446
+[  4]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.022 ms    0/869266 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 50524
+[  3]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.014 ms    0/869209 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 53087
+[  4]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.016 ms    0/869199 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 36927
+[  3]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.020 ms    0/869166 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 48829
+[  4]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.019 ms    0/869146 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 55323
+[  3]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.017 ms    0/869133 (0%)
+[  3]  0.0-20.0 sec  1 datagrams received out-of-order
+[  4] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 44610
+[  4]  0.0-20.0 sec  1.19 GBytes   511 Mbits/sec   0.013 ms    0/868731 (0%)
+[  4]  0.0-20.0 sec  1 datagrams received out-of-order
+[  3] local 192.168.100.99 port 1001 connected with 192.168.100.90 port 47025

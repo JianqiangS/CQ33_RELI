@@ -279,30 +279,30 @@ function search_result_mail()
 		local cc_account=$(jq -r '.para_stat.mail_cc_account' ${search_json})
 		local mail_account=13734716682@163.com
 		local mail_title="${log_date} CQ3.4 Statistic Result"
-		local switch_annex=$(jq -r '.para_stat.mail_switch_annex' ${search_json})
-		if [ "${switch_annex}" -eq 1 ]
-		then
-		{
-			(
-				local log_tar=${log_date}-cq3.4.tar.gz
-				cd ${dir_log}
-				tar -czvPf ${log_tar} ./* > /dev/null
-				{
-					uuencode ${log_tar} ${log_tar}
-				} | mail -s "${mail_title} Annex" -c ${cc_account} ${mail_account}
-				rm ${log_tar}
-			)
-		}
-		fi
-		
 		local switch_content=$(jq -r '.para_stat.mail_switch_content' ${search_json})
 		if [ "${switch_content}" -eq 1 ]
 		then
 		{
-			(
-				cd ${dir_log}
-				echo -e "$(search_result_mail_head)\n$(csvlook cq_result.log)" | mail -s "${mail_title} Content" -c ${cc_account} ${mail_account}
-			)
+			local switch_annex=$(jq -r '.para_stat.mail_switch_annex' ${search_json})
+			local log_tar=${log_date}-cq3.4.tar.gz
+			if [ "${switch_annex}" -eq 1 ]
+			then
+			{
+				(
+					cd ${dir_log}
+					tar -czvPf ${log_tar} ./* > /dev/null
+					echo -e "$(search_result_mail_head)\n$(csvlook cq_result.log)" | mail -s "${mail_title} Content" -a ${log_tar} -c ${cc_account} ${mail_account}
+					rm ${log_tar}
+				)
+			}
+			else
+			{
+				(
+					cd ${dir_log}
+					echo -e "$(search_result_mail_head)\n$(csvlook cq_result.log)" | mail -s "${mail_title} Content" -c ${cc_account} ${mail_account}
+				)
+			}
+			fi
 		}
 		fi
 	}
