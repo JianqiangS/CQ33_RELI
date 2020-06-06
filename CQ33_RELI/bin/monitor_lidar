@@ -64,6 +64,7 @@ function monitor_lidar_server_check(){
 			fi 
 		}
 		done
+		
 		{
 			printf "$(date "+%F %T"),interface=$1,times=${result_count},succ=${result_succ},fail=${result_fail}\n"
 		} |tee ${log_dir}/iperf_result.log
@@ -128,8 +129,8 @@ function monitor_lidar()
 	local lidar_json=${RUN_PATH}/config.json
 	local common_json=${RUN_PATH}/etc/share/commons
 	local l1_name=$(jq -r '.para_lidar.l1_name' ${lidar_json})
-	local l1_ip=$(jq -r '.para_lidar.l1_ip' ${lidar_json})
 	local l2_name=$(jq -r '.para_lidar.l2_name' ${lidar_json})
+	local l1_ip=$(jq -r '.para_lidar.l1_ip' ${lidar_json})
 	local l2_ip=$(jq -r '.para_lidar.l2_ip' ${lidar_json})
 	trap "monitor_lidar_trap" HUP INT QUIT
 	trap "monitor_lidar_trap" EXIT

@@ -26,6 +26,29 @@ function search_log()
 	fi
 }
 
+function search_log_header_template()
+{
+	if [ -f "$1" ]
+	then
+	{
+		sed -i "1i $2" $1
+	}
+	fi
+}
+
+function search_log_header()
+{
+	local header_template="date,port,unit,test_times"
+	local cpu_header="${header_template},cpu0_r,cpu0_f,cpu1_r,cpu1_f,cpu2_r,cpu2_f,cpu3_r,cpu3_f,cpu4_r,cpu4_f,cpu5_r,cpu5_f,temp"
+	local gpu_header="${header_template},gpu_r,gpu_f"
+	local cam_header="date,,video_node,frame_total,frame_drop,frame_split"
+	search_log_header_template "${log_cpu_m}" "${cpu_header}"
+	search_log_header_template "${log_cpu_s}" "${cpu_header}"
+	search_log_header_template "${log_gpu_m}" "${gpu_header}"
+	search_log_header_template "${log_gpu_s}" "${gpu_header}"
+	search_log_header_template "${log_cam}" "${cam_header}"
+}
+
 function search_lidar_count()
 {
 	if [ -s "$1" ]
@@ -46,7 +69,8 @@ function search_lidar_count()
 		}
 		done < $1
 		let lx_time=${lx_succ}+${lx_fail}
-		printf "${time_start},${time_end},$2,iperf,${lx_time},${lx_succ},${lx_fail}\n" 
+		printf "${time_start},${time_end},$2,iperf,${lx_time},${lx_succ},${lx_fail}\n"
+		
 	}
 	fi
 }
@@ -90,6 +114,7 @@ function search_camera_count()
 				local per_log=${cam_dir}/${cam_list[$i]}.log
 				grep ${cam_list[$i]} $1 > ${per_log}
 				search_camera_per_count ${per_log} "${cam_list[$i]}"
+				sed -i "1i\date,,video_node,frame_total,frame_drop,frame_split" ${per_log}
 			}
 			fi
 		}
@@ -189,7 +214,7 @@ function search_dir_check()
 	{
 		local unit_dir=${run_path}/log/${line}
 		printf "\n${seq_line_1// /*}\n"
-		printf "$(date "+%F %T") : check \E[1m${unit_dir}\E[0m"	
+		printf "$(date "+%F %T") : check \E[1m${unit_dir}\E[0m"
 		if [ -d "${unit_dir}" ]
 		then
 		{
@@ -211,7 +236,6 @@ function search_result_count()
 		search_lidar_count ${log_lid2} "lidar2"
 	} >> ${log_result}
 	csvlook ${log_result}
-	#cat ${log_result}
 }
 
 function search_log_rollback()
@@ -308,17 +332,19 @@ function search_system_status()
 {
 	echo -e "\n${seq_line_0// /-}"
 	printf "[$(date "+%F %T")] [info] [master] [system status]\n"
-	sudo timeout 2 tegrastats
-	printf "\n" && uptime	
-	printf "\n" && df -h
-	printf "\n" && free -h
+	{
+		sudo timeout 2 tegrastats
+		printf "\n" && uptime
+		printf "\n" && df -h
+		printf "\n" && free -h
+	}
 	
 	echo -e "\n${seq_line_0// /-}"
 	printf "[$(date "+%F %T")] [info] [slave] [system status]\n"
 	ssh slave <<-eof
 	{
 		sudo timeout 2 tegrastats
-		printf "\n" && uptime	
+		printf "\n" && uptime
 		printf "\n" && df -h
 		printf "\n" && free -h
 	}
@@ -346,6 +372,7 @@ function search_result_output()
 {
 	search_result_count
 	search_system_info
+	search_log_header
 	search_result_xls
 }
 

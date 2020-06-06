@@ -13,8 +13,6 @@ source ${RUN_PATH}/bin/monitor_lidar
 
 function main_deb_check()
 {
-	seq_line_0=$(printf "%95s" "-")
-	seq_line_1=$(printf "%95s" "*")
 	cq_cam_file
 	cq_deb_check "csvlook" cq_deb_csvlook
 	cq_deb_check "expect" cq_deb_expect
@@ -41,7 +39,7 @@ function main_help_info()
 
 function main_excute_all()
 {
-	sleep 60
+	sleep 90
 	#monitor_fan &
 	#monitor_gps &
 	monitor_lidar 1 &
@@ -68,6 +66,8 @@ function main_mode_select()
 	esac
 }
 
+seq_line_0=$(printf "%95s" "-")
+seq_line_1=$(printf "%95s" "*")
 main_deb_check
 
 if [ "$#" -lt 1 ]

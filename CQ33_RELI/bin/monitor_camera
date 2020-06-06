@@ -6,6 +6,7 @@ function monitor_cam_empty()
 		(
 			cd /home/worker/camera
 			sudo rm -r video*
+			sync
 		)
 	eeoff
 }
@@ -39,8 +40,8 @@ function monitor_cam_result()
 {
 	local cam_excute=${log_dir}/camera_excute.log
 	local cam_statis=${log_dir}/camera_result.log
-	local delay_time=$(jq -r ".delay_time" ${common_json})
 	local cam_cycle=$(jq -r ".cycle_times" ${common_json})
+	local delay_time=$(jq -r ".delay_time" ${common_json})
 	local test_init
 	for ((test_init=1;test_init<=${cam_cycle};test_init++))
 	do

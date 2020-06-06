@@ -21,6 +21,7 @@ function monitor_gpu_matrixmul_check()
 	then
 	{
 		cp ${RUN_PATH}/lib/cq_file/gpu/matrixMul.dat ${gpu_uos_path}
+		chmod +x ${matrixmul_file}
 	}
 	fi
 	
@@ -29,11 +30,9 @@ function monitor_gpu_matrixmul_check()
 	then
 	{
 		scp ${RUN_PATH}/lib/cq_file/gpu/matrixMul.dat slave:${gpu_uos_path}
+		ssh slave "chmod +x ${matrixmul_file}"
 	}
 	fi
-	
-	chmod +x ${matrixmul_file}
-	ssh slave "chmod +x ${matrixmul_file}"
 }
 
 function monitor_gpu_excute_master()
@@ -49,7 +48,7 @@ function monitor_gpu_excute_master()
 				cd ${gpu_uos_path}
 				. set_env.sh
 				./matrixMul.dat
-			} > /dev/null
+			} &> /dev/null
 		)
 	}
 	elif [ "${gpu_enable}" -eq 0 ]
@@ -80,7 +79,7 @@ function monitor_gpu_excute_slave()
 				cd ${gpu_uos_path}
 				. set_env.sh
 				./matrixMul.dat
-			} > /dev/null
+			} &> /dev/null
 		)
 		eof
 	}

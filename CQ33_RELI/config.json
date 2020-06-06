@@ -19,7 +19,7 @@
 		"iperf_band": 500
 	},
 	"para_stat": {
-		"mail_switch_annex": 0,
+		"mail_switch_annex": 1,
 		"mail_switch_content": 1,
 		"mail_cc_account" : "jianqiangx.shang@uisee.com, 425833796@qq.com"
 	}

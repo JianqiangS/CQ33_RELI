@@ -23,7 +23,9 @@ function fb_switch_rclocal_check()
 		sudo cp ${RUN_PATH}/lib/cq_file/rclocal/rc_m.local ${rc_local}
 		scp ${RUN_PATH}/lib/cq_file/rclocal/rc_s.local worker@192.168.100.98:/home/worker
 		ssh slave <<-eof
+		{
 			sudo mv /home/worker/rc_s.local ${rc_local}
+		}
 		eof
 	}
 	fi
@@ -34,7 +36,9 @@ function fb_switch_disable()
 	printf "[ Check ] : test mode (${switch_fb}), switch to foreground ...\n"
 	sudo sed -i 's/\(^su - worker -c \"\/home\/worker\/CQ33_RELI\/run*\)/\#\1/' ${rc_local}
 	ssh slave <<-eeooff 
+	{
 		sudo sed -i 's/\(^\/home\/worker\/camera\/*\)/\#\1/' ${rc_local}
+	}
 	eeooff
 }
 
@@ -43,7 +47,9 @@ function fb_switch_enable()
 	printf "[ Check ] : test mode (${switch_fb}), switch to background ...\n"
 	sudo sed -i 's/^[ ]*\#\(su - worker -c \"\/home\/worker\/CQ33_RELI\/run*\)/\1/' ${rc_local}
 	ssh slave <<-eeooff
+	{
 		sudo sed -i 's/^[ ]*\#\(\/home\/worker\/camera\/*\)/\1/' ${rc_local}
+	}
 	eeooff
 }
 
