@@ -196,11 +196,13 @@ function search_cam_log_scp()
 	then
 	{
 		ssh slave <<-eeooff
+		{
 			(
 				cd /home/worker/camera/log
 				sudo chown -R worker:worker check_camera
 				scp -r check_camera master:${run_path}/log
 			)
+		}
 		eeooff
 	}
 	fi

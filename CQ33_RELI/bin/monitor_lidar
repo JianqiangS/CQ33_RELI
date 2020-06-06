@@ -20,13 +20,13 @@ function monitor_lidar_client_template()
 	for ((test_init=1;test_init<=${lidar_cycle};test_init++))
 	do
 	{
-		(
-			ssh $2@$3 <<-eeooff
-				iperf -u -c 192.168.100.99\
-				-p ${port} -t ${iperf_time}\
-				-i ${iperf_inter} -b ${iperf_band}M
-			eeooff
-		)
+		ssh $2@$3 <<-eeooff
+		{
+			iperf -u -c 192.168.100.99\
+			-p ${port} -t ${iperf_time}\
+			-i ${iperf_inter} -b ${iperf_band}M
+		}
+		eeooff
 		sleep ${delay_time} && sync
 		monitor_lidar_server_check $1
 	}

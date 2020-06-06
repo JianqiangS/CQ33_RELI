@@ -3,11 +3,13 @@
 function monitor_cam_empty()
 {
 	ssh slave <<-eeoff
+	{
 		(
 			cd /home/worker/camera
 			sudo rm -r video*
 			sync
 		)
+	}
 	eeoff
 }
 
@@ -27,12 +29,14 @@ function monitor_cam_excute()
 {
 	local run_time=$(jq -r '.para_cam.run_time' ${common_json})
 	ssh slave <<-eeooff
+	{
 		(
 			pgrep check_camera |xargs sudo kill -9
 			cd /home/worker/camera
 			> ${log_summary}
 			./startup.sh ${run_time}
 		)
+	}
 	eeooff
 }
 
