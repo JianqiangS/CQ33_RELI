@@ -28,7 +28,7 @@ function search_log()
 
 function search_log_header_template()
 {
-	if [ -f "$1" ]
+	if [ -f "$1" ] 
 	then
 	{
 		sed -i "1i $2" $1
@@ -292,6 +292,7 @@ function search_result_mail()
 					cd ${dir_log}
 					tar -czvPf ${log_tar} ./* > /dev/null
 					echo -e "$(search_result_mail_head)\n$(csvlook cq_result.log)" | mail -s "${mail_title} Content" -a ${log_tar} -c ${cc_account} ${mail_account}
+					#mail -s "$(echo -e "${mail_title}\nContent-Type: text/html; charset=utf-8")" -c ${cc_account} ${mail_account} < cq_result.html
 					rm ${log_tar}
 				)
 			}
@@ -370,12 +371,64 @@ function search_system_info()
 	} >> ${dir_log}/system_info.log
 }
 
+function search_result_html_table()
+{
+	if [ -s "${log_result}" ] 
+	then
+	{
+		{
+			echo -e "<html>\n<body>\n<table width=\"100%\" border=\"1\" align=\"center\">"
+			while read line
+			do
+			{
+				echo "<tr>"
+				local num=$(echo "${line}" |awk 'BEGIN{FS=","}{print NF}')
+				for ((i=1;i<=${num};i++)) 
+				do
+				{
+					if [ "${i}" -eq "${num}" ]
+					then
+					{
+						local end_title=$(echo "${line}" |awk -F ',' '{print $'$i'}')
+						if [ "${end_title}"x != "fail_times"x ] 
+						then
+						{
+							echo "${line}" |awk -F ',' '{print "<td align=\"center\">""<font color=\"red\">"$'$i'"</font>""</td>"}'
+						}
+						else
+						{
+							echo "${line}" |awk -F ',' '{print "<td align=\"center\">"$'$i'"</td>"}'
+						}
+						fi
+					}
+					else
+					{
+						echo "${line}" |awk -F ',' '{print "<td align=\"center\">"$'$i'"</td>"}'
+					}
+					fi
+				}
+				done
+				echo "</tr>"
+			}
+			done < ${log_result}
+			echo -e "</body>\n</html>"
+		} >> ${log_result_html} 
+	}
+	fi
+}
+
+function search_result_html()
+{
+	search_result_html_table
+}
+
 function search_result_output()
 {
 	search_result_count
 	search_system_info
 	search_log_header
 	search_result_xls
+	search_result_html
 }
 
 function search_main()
@@ -397,6 +450,7 @@ function search_main()
 	local log_lid1=${dir_log_info}/result_lidar1
 	local log_lid2=${dir_log_info}/result_lidar2
 	local log_result=${dir_log}/cq_result.log
+	local log_result_html=${dir_log}/cq_result.html
 	[ ! -d "${dir_log}" ] && mkdir -p ${dir_log}
 	[ ! -d "${dir_log_info}" ] && mkdir -p ${dir_log_info}
 	search_cron_check
