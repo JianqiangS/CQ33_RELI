@@ -14,6 +14,7 @@ source ${RUN_PATH}/bin/monitor_lidar
 function main_deb_check()
 {
 	cq_cam_file
+	cq_deb_s_stress
 	cq_deb_check "csvlook" cq_deb_csvlook
 	cq_deb_check "expect" cq_deb_expect
 	#cq_deb_check "firefox" cq_deb_firefox

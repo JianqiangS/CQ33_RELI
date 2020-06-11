@@ -93,6 +93,24 @@ function cq_deb_stress()
 	sudo dpkg -i ${dir_deb}/stress-ng_0.05.23-1ubuntu2_arm64.deb
 }
 
+function cq_deb_s_stress()
+{
+	local stress_bin=$(ssh slave "which stress-ng")
+	if [ -z "${stress_bin}" ]
+	then
+	{
+		scp -r ${RUN_PATH}/lib/cq_deb/deb_stress slave:~/
+		ssh slave <<-eeoff
+		{
+			sudo dpkg -i ~/deb_stress/libaio1_0.3.110-2_arm64.deb
+			sudo dpkg -i ~/deb_stress/stress-ng_0.05.23-1ubuntu2_arm64.deb
+			rm -r ~/deb_stress
+		}
+		eeoff
+	}
+	fi
+}
+
 function cq_deb_uuencode()
 {
 	cq_deb_help "uuencode" "deb_uuencode"
