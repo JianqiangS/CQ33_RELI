@@ -2,15 +2,21 @@
 
 function monitor_cam_empty()
 {
-	ssh slave <<-eeoff
+	local warn_threold=$(ssh slave "df -h|grep mmcblk |awk '{print $5}'|awk -F '%' '{print $1}'")
+	if [ "${warn_threold}" -gt 90 ]
+	then
 	{
-		(
-			cd /home/worker/camera
-			sudo rm -r video*
-			sync
-		)
+		ssh slave <<-eeoff
+		{
+			(
+				cd /home/worker/camera
+				sudo rm -r video*
+				sync
+			)
+		}
+		eeoff
 	}
-	eeoff
+	fi
 }
 
 function monitor_cam_num()
