@@ -14,8 +14,8 @@ function monitor_cam_num()
 
 function monitor_cam_excute()
 {
-        local run_time=$(jq -r '.run_time' ${config_json})
-        pgrep check_camera |xargs sudo kill -9
+	local run_time=$(jq -r '.run_time' ${config_json})
+	pgrep check_camera |xargs sudo kill -9
 	(
 		cd ${run_dir}
 		> ${log_summary}

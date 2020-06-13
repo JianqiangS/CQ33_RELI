@@ -2,6 +2,7 @@
 
 run_path=/home/worker/CQ33_RELI
 source ${run_path}/etc/function_version.sh
+source ${run_path}/etc/function_public.sh
 
 function search_cron_check()
 {
@@ -325,25 +326,28 @@ function search_result_xls()
 function search_system_version()
 {
 	local script_version=$(jq -r '.version' ${run_path}/etc/share/list_version)	
-	echo "${seq_line_0// /-}"
-	printf "[$(date "+%F %T")] [info] [master] [version]\n"
-	printf "Script Version : 	${script_version}\n"
-	list_version.sh
+	cat <<-eof
+		${seq_line_0// /-}
+		[$(date "+%F %T")] [info] [master] [version]
+		Eth0 Address   :	$(eth0_hwaddr)
+		Script Version : 	${script_version}
+		$(list_version.sh)
+	eof
 }
 
 function search_system_status()
 {
-	echo -e "\n${seq_line_0// /-}"
-	printf "[$(date "+%F %T")] [info] [master] [system status]\n"
-	{
-		sudo timeout 2 tegrastats
-		printf "\n" && uptime
-		printf "\n" && df -h
-		printf "\n" && free -h
-	}
+	cat <<-eof
+		${seq_line_0// /-}
+		[$(date "+%F %T")] [info] [master] [system status]
+		$(sudo timeout 2 tegrastats)
+		$(printf "\n" && uptime)
+		$(printf "\n" && df -h)
+		$(printf "\n" && free -h)
+		${seq_line_0// /-}
+		[$(date "+%F %T")] [info] [slave] [system status]
+	eof
 	
-	echo -e "\n${seq_line_0// /-}"
-	printf "[$(date "+%F %T")] [info] [slave] [system status]\n"
 	ssh slave <<-eof
 	{
 		sudo timeout 2 tegrastats
@@ -356,10 +360,12 @@ function search_system_status()
 
 function search_system_config()
 {
-	echo -e "\n${seq_line_0// /-}"
-	printf "[$(date "+%F %T")] [info] [master] [config para]\n"
-	cat ${run_path}/config.json
-	echo "${seq_line_0// /-}"
+	cat <<-eof
+		${seq_line_0// /-}
+		[$(date "+%F %T")] [info] [master] [config para]
+		$(cat ${run_path}/config.json)
+		${seq_line_0// /-}
+	eof
 }
 
 function search_system_info()
